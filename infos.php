@@ -27,23 +27,26 @@ require_once 'init.php';
         ?>
         <div class="main">
             <div class="conditionsutilisation">
-                <h1>Infos de la <?php echo $vwebsite; ?> du site :</h1>
+                <h1>Infos de la 2.2 du site :</h1>
         
                 <h2>1. Nouveautés</h2>
                 <p>Voici les nouveautés du site :</p>
                 <ul>
-                    <li><strong>Modification des <a href="https://project-sharing.fr.to/conditionsutilisation">conditions d'utilisation</a> :</strong> Les <strong><a href="https://project-sharing.fr.to/conditionsutilisation">conditions d'utilisation</a></strong> ont été modifiées, à vous d'aller voir ces modifications.</li>
+                    <li><strong>Modification des <a href="https://project-sharing.fr.to/conditionsutilisation">conditions d'utilisation</a> :</strong> Les <strong><a href="https://project-sharing.fr.to/conditionsutilisation">conditions d'utilisation</a></strong> ont été modifiées.</li>
                     <li><strong>Correction de bugs :</strong> Des bugs ont été corrigés par ci par là sur le site, mais si vous en voyez d'autres, signalez-les nous sur le serveur Discord.</li>
                     <li><strong>Collaboration :</strong> Nous avons toujours la collaboration avec Yatsuko et son moteur de recherche <strong><a href="https://weeble.fr/">Weeble</a></strong>.</li>
-                    <li><strong>Premium :</strong> Un système de compte premium encore en cours de développement, mais les personnes qui sont premium peuvent mettre l'url de leur chaîne YouTube, et la dernière vidéo s'affichera en dessous de leur compte.</li>
-                    <li><strong>Page "404" et "403" :</strong> La page "404" et "403" a été créée.</li>
-                    <li><strong>Des logs :</strong> Des logs ont été mis en place pour savoir qui a fait quoi et quand, pour plus de sécurité.</li>
+                    <li><strong>Premium :</strong> Un système de compte premium encore en cours de développement, mais les personnes qui sont premium peuvent mettre l'identifiant de leur chaîne YouTube, et la dernière vidéo s'affichera en dessous de leur compte (pas encore au point...).</li>
+                    <li><strong>Page "404" et "403" :</strong> La page "404" et "403" a été créée (Par <li><strong><a href="/profile?pseudo=Clovis">Clovis</a></strong></li>).</li>
+                    <li><strong>Des logs :</strong> Des logs ont été mis en place pour savoir qui a fait quoi et quand, pour plus de sécurité, mais c'est encore en cour de développement.</li>
+                    <li><strong>Barre de navigation :</strong> La barre de navigation à été redessiné par <li><strong><a href="/profile?pseudo=Tomtom4500">Tomtom</a></strong></li> !</li>
+                    <li><strong>Adaptation mobile :</strong> Une petite adaptation mobile pas encore tout à fait au point mais beaucoup plus jolie à été faite par <li><strong><a href="/profile?pseudo=Tomtom4500">Tomtom</a></strong></li> !</li>
                 </ul>
         
                 <h2>2. Développeurs</h2>
-                <p>Voici les développeurs qui ont codé la <?php echo $vwebsite; ?> du site :</p>
+                <p>Voici les développeurs qui ont codé la 2.2 du site :</p>
                 <ul>
                     <li><strong><a href="/profile?pseudo=NatCode">NatCode</a></strong></li>
+                    <li><strong><a href="/profile?pseudo=Tomtom4500">Tomtom</a></strong></li>
                     <li><strong><a href="/profile?pseudo=Clovis">Clovis</a></strong></li>
                 </ul>
         
@@ -71,7 +74,7 @@ require_once 'init.php';
                 </ul>
         
                 <h2>2. Développeurs</h2>
-                <p>Voici les développeurs qui ont codé la <?php echo $vwebsite; ?> du site :</p>
+                <p>Voici les développeurs qui ont codé la 2.1 du site :</p>
                 <ul>
                     <li><strong><a href="/profile?pseudo=NatCode">NatCode</a></strong></li>
                 </ul>
@@ -105,7 +108,7 @@ require_once 'init.php';
                 </ul>
         
                 <h2>2. Développeurs</h2>
-                <p>Voici les développeurs qui ont codé la <?php echo $vwebsite; ?> du site :</p>
+                <p>Voici les développeurs qui ont codé la 2.0 du site :</p>
                 <ul>
                     <li><strong><a href="/profile?pseudo=NatCode">NatCode</a></strong></li>
                     <li><strong><a href="/profile?pseudo=HGStyle">HGStyle</a></strong></li>
