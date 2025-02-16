@@ -1,5 +1,91 @@
 <?php
 require_once 'init.php';
+
+$project_id = isset($_GET['id']) ? htmlspecialchars($_GET['id'], ENT_QUOTES, 'UTF-8') : false;
+
+if (!$project_id) {
+    echo "<h1><div class='projects'> <div class='alert'><strong>ID invalide !</strong></div></div></h1>";
+    exit();
+}
+
+$stmt = $pdo->prepare("SELECT title, description, user_id, likes, dislikes FROM projects WHERE id = ?");
+$stmt->execute([$project_id]);
+$result = $stmt->fetch(PDO::FETCH_ASSOC);
+
+if ($result) {
+    $title = htmlspecialchars($result['title']);
+    $description = $result['description'];
+    $targetUser_id = (int)$result['user_id'];
+    $likes = (int)$result['likes'];
+    $dislikes = (int)$result['dislikes'];
+
+    $stmt_user = $pdo->prepare("SELECT pseudo FROM users WHERE id = ?");
+    $stmt_user->execute([$targetUser_id]);
+    $user_data = $stmt_user->fetch(PDO::FETCH_ASSOC);
+
+    $targetPseudo = $user_data ? htmlspecialchars($user_data['pseudo']) : "Utilisateur inconnu";
+    
+    if ($_SERVER['REQUEST_METHOD'] == 'POST' && (isset($_POST['like']) || isset($_POST['dislike'])) && $myUser_id) {
+        
+        // tester si on a liké ou disliké
+        $sql = $pdo->prepare("SELECT is_like FROM likes WHERE user_id = ? AND project_id = ?");
+        $sql->execute([$myUser_id, $project_id]);
+        $data = $sql->fetchAll();
+        
+        // si on a liké ou disliké
+        if ($data) {
+            if ($data[0]["is_like"] == 0 && isset($_POST['like']) && $_POST['like']) {
+                // il avait disliké et il veux liker
+                // changer le dislike en like
+                $stmt = $pdo->prepare("UPDATE likes SET is_like = 1 WHERE user_id = ? AND project_id = ?");
+                $stmt->execute([$myUser_id, $project_id]);
+                // mettre a jour les likes dans la table projects
+                $stmt = $pdo->prepare("UPDATE projects SET likes = likes + 1, dislikes = dislikes - 1 WHERE id = ?");
+                $stmt->execute([$project_id]);
+                // augmenter les likes, décrémenter les dislikes
+                $likes++;
+                $dislikes--;
+            } else if ($data[0]["is_like"] == 1 && isset($_POST['dislike']) && $_POST['dislike']) {
+                // il a déja liké et il veux disliker
+                // changer le like en dislike
+                $stmt = $pdo->prepare("UPDATE likes SET is_like = 0 WHERE user_id = ? AND project_id = ?");
+                $stmt->execute([$myUser_id, $project_id]);
+                // mettre a jour les likes dans la table projects
+                $stmt = $pdo->prepare("UPDATE projects SET likes = likes - 1, dislikes = dislikes + 1 WHERE id = ?");
+                $stmt->execute([$project_id]);
+                // augmenter les dislikes, décrémenter les likes
+                $dislikes++;
+                $likes--;
+            }
+        } else {
+            // on a pas encore déjà liké ou disliké
+            if (isset($_POST['like']) && $_POST['like']) {
+                // il veux liker
+                // ajouter une ligne de like
+                $stmt = $pdo->prepare("INSERT INTO likes (user_id, project_id, is_like) VALUES (?, ?, 1)");
+                $stmt->execute([$myUser_id, $project_id]);
+                // mettre a jour les likes dans la table projects
+                $stmt = $pdo->prepare("UPDATE projects SET likes = likes + 1 WHERE id = ?");
+                $stmt->execute([$project_id]);
+                // augmenter les likes
+                $likes++;
+            } else if (isset($_POST['dislike']) && $_POST['dislike']) {
+                // ajouter une ligne de dislike
+                $stmt = $pdo->prepare("INSERT INTO likes (user_id, project_id, is_like) VALUES (?, ?, 0)");
+                $stmt->execute([$myUser_id, $project_id]);
+                // mettre a jour les likes dans la table projects
+                $stmt = $pdo->prepare("UPDATE projects SET dislikes = dislikes + 1 WHERE id = ?");
+                $stmt->execute([$project_id]);
+                // augmenter les dislikes
+                $dislikes++;
+            }
+        }
+
+        if (isset($_GET["gohome"])) {
+            header("Location: /");
+            exit;
+        }
+    }
 ?>
 <!DOCTYPE html>
 <html lang='fr'>
@@ -27,92 +113,6 @@ require_once 'init.php';
         ?>
         <div class="main">
             <?php
-            $project_id = isset($_GET['id']) ? htmlspecialchars($_GET['id'], ENT_QUOTES, 'UTF-8') : false;
-
-            if (!$project_id) {
-                echo "<h1><div class='projects'> <div class='alert'><strong>ID invalide !</strong></div></div></h1>";
-                exit();
-            }
-
-            $stmt = $pdo->prepare("SELECT title, description, user_id, likes, dislikes FROM projects WHERE id = ?");
-            $stmt->execute([$project_id]);
-            $result = $stmt->fetch(PDO::FETCH_ASSOC);
-
-            if ($result) {
-                $title = htmlspecialchars($result['title']);
-                $description = $result['description'];
-                $targetUser_id = (int)$result['user_id'];
-                $likes = (int)$result['likes'];
-                $dislikes = (int)$result['dislikes'];
-
-                $stmt_user = $pdo->prepare("SELECT pseudo FROM users WHERE id = ?");
-                $stmt_user->execute([$targetUser_id]);
-                $user_data = $stmt_user->fetch(PDO::FETCH_ASSOC);
-
-                $targetPseudo = $user_data ? htmlspecialchars($user_data['pseudo']) : "Utilisateur inconnu";
-                
-                if ($_SERVER['REQUEST_METHOD'] == 'POST' && (isset($_POST['like']) || isset($_POST['dislike'])) && $myUser_id) {
-                    
-                    // tester si on a liké ou disliké
-                    $sql = $pdo->prepare("SELECT is_like FROM likes WHERE user_id = ? AND project_id = ?");
-                    $sql->execute([$myUser_id, $project_id]);
-                    $data = $sql->fetchAll();
-                    
-                    // si on a liké ou disliké
-                    if ($data) {
-                        if ($data[0]["is_like"] == 0 && isset($_POST['like']) && $_POST['like']) {
-                            // il avait disliké et il veux liker
-                            // changer le dislike en like
-                            $stmt = $pdo->prepare("UPDATE likes SET is_like = 1 WHERE user_id = ? AND project_id = ?");
-                            $stmt->execute([$myUser_id, $project_id]);
-                            // mettre a jour les likes dans la table projects
-                            $stmt = $pdo->prepare("UPDATE projects SET likes = likes + 1, dislikes = dislikes - 1 WHERE id = ?");
-                            $stmt->execute([$project_id]);
-                            // augmenter les likes, décrémenter les dislikes
-                            $likes++;
-                            $dislikes--;
-                        } else if ($data[0]["is_like"] == 1 && isset($_POST['dislike']) && $_POST['dislike']) {
-                            // il a déja liké et il veux disliker
-                            // changer le like en dislike
-                            $stmt = $pdo->prepare("UPDATE likes SET is_like = 0 WHERE user_id = ? AND project_id = ?");
-                            $stmt->execute([$myUser_id, $project_id]);
-                            // mettre a jour les likes dans la table projects
-                            $stmt = $pdo->prepare("UPDATE projects SET likes = likes - 1, dislikes = dislikes + 1 WHERE id = ?");
-                            $stmt->execute([$project_id]);
-                            // augmenter les dislikes, décrémenter les likes
-                            $dislikes++;
-                            $likes--;
-                        }
-                    } else {
-                        // on a pas encore déjà liké ou disliké
-                        if (isset($_POST['like']) && $_POST['like']) {
-                            // il veux liker
-                            // ajouter une ligne de like
-                            $stmt = $pdo->prepare("INSERT INTO likes (user_id, project_id, is_like) VALUES (?, ?, 1)");
-                            $stmt->execute([$myUser_id, $project_id]);
-                            // mettre a jour les likes dans la table projects
-                            $stmt = $pdo->prepare("UPDATE projects SET likes = likes + 1 WHERE id = ?");
-                            $stmt->execute([$project_id]);
-                            // augmenter les likes
-                            $likes++;
-                        } else if (isset($_POST['dislike']) && $_POST['dislike']) {
-                            // ajouter une ligne de dislike
-                            $stmt = $pdo->prepare("INSERT INTO likes (user_id, project_id, is_like) VALUES (?, ?, 0)");
-                            $stmt->execute([$myUser_id, $project_id]);
-                            // mettre a jour les likes dans la table projects
-                            $stmt = $pdo->prepare("UPDATE projects SET dislikes = dislikes + 1 WHERE id = ?");
-                            $stmt->execute([$project_id]);
-                            // augmenter les dislikes
-                            $dislikes++;
-                        }
-                    }
-
-                    if (isset($_GET["gohome"])) {
-                        header("Location: /");
-                        exit;
-                    }
-                }
-
                 echo "<div class='projects'>
                       <h1>Projet de $targetPseudo</h1>
                       <h3>$title</h3>
