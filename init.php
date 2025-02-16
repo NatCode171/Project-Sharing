@@ -253,26 +253,21 @@
         $pseudo_sos_1 = null;
         $pseudo_sos_2 = null;
 
+        $sql = $pdo->prepare("SELECT pseudo FROM users WHERE id = ?");
+        $sql->execute([$user_id]);
+        $row = $sql->fetch(PDO::FETCH_ASSOC);
+        
+        if ($row) {
+            $pseudo_sos_1 = htmlspecialchars($row['pseudo']);
+        }
+
         if ($targetUser_id != null) {
-            $sql = $pdo->prepare("SELECT id, pseudo FROM users WHERE id IN (?, ?)");
-            $sql->execute([$user_id, $targetUser_id]);
-            $results = $sql->fetchAll(PDO::FETCH_ASSOC);
-            
-            foreach ($results as $row) {
-                if ($row['id'] == $user_id) {
-                    $pseudo_sos_1 = htmlspecialchars($row['pseudo']);
-                }
-                if ($row['id'] == $targetUser_id) {
-                    $pseudo_sos_2 = htmlspecialchars($row['pseudo']);
-                }
-            }
-        } else {
             $sql = $pdo->prepare("SELECT pseudo FROM users WHERE id = ?");
-            $sql->execute([$user_id]);
+            $sql->execute([$targetUser_id]);
             $row = $sql->fetch(PDO::FETCH_ASSOC);
             
             if ($row) {
-                $pseudo_sos_1 = htmlspecialchars($row['pseudo']);
+                $pseudo_sos_2 = htmlspecialchars($row['pseudo']);
             }
         }
 
@@ -321,6 +316,7 @@
             11 => "L'utilisateur '$targetPseudo' (anciennement $pseudo_sos_1) s'est déabonné du compte de '$targetPseudo2' (anciennement $pseudo_sos_2) le '$date' sur la page '$page'.",
             12 => "L'utilisateur '$targetPseudo' (anciennement $pseudo_sos_1) à créer un projet le '$date' sur la page '$page'.",
             13 => "L'utilisateur '$targetPseudo' (anciennement $pseudo_sos_1) a banni le compte de '$targetPseudo2' (anciennement $pseudo_sos_2) le '$date' sur la page '$page'.",
+            14 => "L'utilisateur '$targetPseudo' (anciennement $pseudo_sos_1) s'est connecté le '$date' sur la page '$page' depuis l'application PSapp.",
         ];
 
         if (array_key_exists($command, $logs)) {
@@ -385,7 +381,6 @@
                     $pdo->beginTransaction();
     
                     try {
-
                         $log = insertLog(5, $myUser_id, $targetUser_id);
 
                         // Suppression de l'utilisateur
@@ -409,15 +404,14 @@
                         // Suppression des fichiers et du répertoire utilisateur
                         $userDir = $_SERVER['DOCUMENT_ROOT'] . "/users/$targetUser_id";
                         if (is_dir($userDir)) {
-                            $files = glob("$userDir/*");
-                            foreach ($files as $file) {
-                                if (is_file($file) && !unlink($file)) {
-                                    throw new Exception('Erreur lors de la suppression du fichier : ' . $file);
+                            $objects = scandir($userDir);
+                            foreach ($objects as $object) {
+                                if ($object != "." && $object != "..") {
+                                    if (filetype($userDir."/".$object) == "dir") rmdir($userDir."/".$object); else unlink($userDir."/".$object);
                                 }
                             }
-                            if (!rmdir($userDir)) {
-                                throw new Exception('Erreur lors de la suppression du dossier : ' . $userDir);
-                            }
+                            reset($objects);
+                            rmdir($userDir);
                         }
     
                         // Validation de la transaction
@@ -430,7 +424,6 @@
             }
         }
     } catch (Exception $e) {
-        // Gestion des erreurs globales
         echo "Erreur : " . $e->getMessage();
     }
 
