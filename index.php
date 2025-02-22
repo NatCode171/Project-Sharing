@@ -29,57 +29,6 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
     <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
-    <?php
-    // popup pub ou info
-    if ($myUser_id) {
-        if ($my_info_ou_pub != $info_ou_pub) {
-            if ($info_ou_pub == 1) {
-                $showPub = true;
-            } elseif ($info_ou_pub == 2) {
-                $showInfo = true;
-            }
-        }
-        $sql = $pdo->prepare("UPDATE users SET info_ou_pub = ? WHERE id = ?");
-        $sql->execute([$info_ou_pub, $myUser_id]);
-    } else {
-        if ($info_ou_pub === 1) {
-            $showPub = true;
-        } elseif ($info_ou_pub === 2) {
-            $showInfo = true;
-        }
-    }
-
-    if ($showPub) {
-
-        echo "<div class='popupinfo' id='popuppub'>
-                  <img class='round-logo' src='/img/Logo_TERRIA.png' alt='TERRIA'>
-                  <h2>TERRIA</h2>
-                  <p>Rejoinez Terria, un serveur Minecraft INCROYABLE !!!</p>
-                  <p><a href='https://terria.eu/' target='_blank'>terria.eu</a></p>
-                  <button class='close-btn' onclick='closepub()'>✖ Fermer</button>
-              </div>";
-
-        // Pour la pub de Weeble
-        /*
-        echo "<div class='popupinfo' id='popuppub'>
-                  <img class='round-logo' src='/img/Logo_Weeble.png' alt='Weeble'>
-                  <h2>Weeble</h2>
-                  <p>Rejoinez Weeble, un nouveau moteur de recherche sécuriser.</p>
-                  <p><a href='https://weeble.fr/' target='_blank'>Weeble.fr</a></p>
-                  <button class='close-btn' onclick='closepub()'>✖ Fermer</button>
-              </div>";
-        */
-    } 
-    if ($showInfo) {
-        echo "<div class='popupinfo' id='popupinfo'>
-                  <img src='/img/Logo_Project-Sharing.png' alt='Logo Project Sharing'>
-                  <h2>Bienvenue sur la $vwebsite de Project Sharing !</h2>
-                  <p>Nous avons ajouté de nouvelles fonctionnalités. Découvrez-les maintenant !</p>
-                  <p><a href='https://project-sharing.fr.to/infos' target='_blank'>Voir les informations</a></p>
-                  <button class='close-btn' onclick='closeinfo()'>✖ Fermer</button>
-              </div>";
-    }
-    ?>
     <main>
         <?php
         require_once 'nav.php';
@@ -89,7 +38,67 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
                 <h1>Bienvenue sur le site de partage de projets informatiques !!!<br>Vous pouvez partager vos projets et voir ceux des autres.</h1>
             </div>
 
+            <div class="pub_in_project" id="pub_in_project">
+                <button class="close-btn-2" onclick='closepopuppub_in_project()'>✖</button>
+                <img src="/img/Logo_Weeble.png" alt="Weeble">
+                <div class="txt_pub">
+                    <h2>Weeble</h2>
+                    <p>Rejoignez Weeble, un nouveau moteur de recherche sécurisé.</p>
+                    <p><a href="https://weeble.fr/" target="_blank">Weeble.fr</a></p>
+                </div>
+            </div>
+
             <?php
+            // popup pub ou info
+            if ($myUser_id) {
+                if ($my_info_ou_pub != $info_ou_pub) {
+                    if ($info_ou_pub == 1) {
+                        $showPub = true;
+                    } elseif ($info_ou_pub == 2) {
+                        $showInfo = true;
+                    }
+                }
+                $sql = $pdo->prepare("UPDATE users SET info_ou_pub = ? WHERE id = ?");
+                $sql->execute([$info_ou_pub, $myUser_id]);
+            } else {
+                if ($info_ou_pub === 1) {
+                    $showPub = true;
+                } elseif ($info_ou_pub === 2) {
+                    $showInfo = true;
+                }
+            }
+
+            if ($showPub) {
+
+                echo "<div class='popupinfo' id='popuppub'>
+                        <img class='round-logo' src='/img/Logo_TERRIA.png' alt='TERRIA'>
+                        <h2>TERRIA</h2>
+                        <p>Rejoinez Terria, un serveur Minecraft INCROYABLE !!!</p>
+                        <p><a href='https://terria.eu/' target='_blank'>terria.eu</a></p>
+                        <button class='close-btn' onclick='closepub()'>✖ Fermer</button>
+                    </div>";
+
+                // Pour la pub de Weeble
+                /*
+                echo "<div class='popupinfo' id='popuppub'>
+                        <img class='round-logo' src='/img/Logo_Weeble.png' alt='Weeble'>
+                        <h2>Weeble</h2>
+                        <p>Rejoinez Weeble, un nouveau moteur de recherche sécuriser.</p>
+                        <p><a href='https://weeble.fr/' target='_blank'>Weeble.fr</a></p>
+                        <button class='close-btn' onclick='closepub()'>✖ Fermer</button>
+                    </div>";
+                */
+            } 
+            if ($showInfo) {
+                echo "<div class='popupinfo' id='popupinfo'>
+                        <img src='/img/Logo_Project-Sharing.png' alt='Logo Project Sharing'>
+                        <h2>Bienvenue sur la $vwebsite de Project Sharing !</h2>
+                        <p>Nous avons ajouté de nouvelles fonctionnalités. Découvrez-les maintenant !</p>
+                        <p><a href='https://project-sharing.fr.to/infos' target='_blank'>Voir les informations</a></p>
+                        <button class='close-btn' onclick='closeinfo()'>✖ Fermer</button>
+                    </div>";
+            }
+
             allusers(false, false); // mysubscribe and subscribe
 
             // popup discord
@@ -116,16 +125,6 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
             ?>
 
             <div class="projetslistecontainer">
-
-                <div class='pub_in_project'>
-                    <img class='round-logo' src='/img/Logo_Weeble.png' alt='Weeble'>
-                    <h2>Weeble</h2>
-                    <p>Rejoinez Weeble, un nouveau moteur de recherche sécuriser.</p>
-                    <p><a href='https://weeble.fr/' target='_blank'>Weeble.fr</a></p>
-                </div>
-                <br>
-                <br>
-
                 <h2>Voici les différents projets :</h2>
                 <div class="gridbuttonsprojects">                    
                     <?php
@@ -177,6 +176,14 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
         </div>
     </main>
     <script>
+        function closepopuppub_in_project() {
+            var popupdiscord = document.getElementById('pub_in_project');
+            popupdiscord.classList.add('hide');
+            setTimeout(function() {
+                popupdiscord.style.display = 'none';
+            });
+        }
+
         function closepopupdiscord() {
             var popupdiscord = document.getElementById('popupdiscord');
             popupdiscord.classList.add('hide');
