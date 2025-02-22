@@ -135,10 +135,19 @@
             ]);
     
             if (!$success) {
-                echo "Une erreur s'est produite lors de la mise à jour des paramètres d'administration.";
+                echo "<div class='alert'>Une erreur s'est produite lors de la mise à jour des paramètres d'administration.</div>";
                 exit();
             }
-    
+
+            if ($new_info_ou_pub == 0) {
+                $stmt = $pdo->prepare("UPDATE users SET info_ou_pub = 0");
+                if (!$stmt->execute()) {
+                    $errorInfo = $stmt->errorInfo();
+                    echo "<div class='alert'>Erreur lors de la réinitialisation : " . $errorInfo[2] . "</div>";
+                    exit();
+                }
+            }
+            
             header("Location: $url");
             exit();
         } catch (PDOException $e) {
