@@ -32,10 +32,10 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
     <?php
     // popup pub ou info
     if ($myUser_id) {
-        if ($my_info_ou_pub !== $info_ou_pub) {
-            if ($info_ou_pub === 1) {
+        if ($my_info_ou_pub != $info_ou_pub) {
+            if ($info_ou_pub == 1) {
                 $showPub = true;
-            } elseif ($info_ou_pub === 2) {
+            } elseif ($info_ou_pub == 2) {
                 $showInfo = true;
             }
         }
@@ -50,6 +50,17 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
     }
 
     if ($showPub) {
+
+        echo "<div class='popupinfo' id='popuppub'>
+                  <img class='round-logo' src='/img/Logo_TERRIA.png' alt='TERRIA'>
+                  <h2>TERRIA</h2>
+                  <p>Rejoinez Terria, un serveur Minecraft INCROYABLE !!!</p>
+                  <p><a href='https://terria.eu/' target='_blank'>terria.eu</a></p>
+                  <button class='close-btn' onclick='closepub()'>✖ Fermer</button>
+              </div>";
+
+        // Pour la pub de Weeble
+        /*
         echo "<div class='popupinfo' id='popuppub'>
                   <img class='round-logo' src='/img/Logo_Weeble.png' alt='Weeble'>
                   <h2>Weeble</h2>
@@ -57,6 +68,7 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
                   <p><a href='https://weeble.fr/' target='_blank'>Weeble.fr</a></p>
                   <button class='close-btn' onclick='closepub()'>✖ Fermer</button>
               </div>";
+        */
     } 
     if ($showInfo) {
         echo "<div class='popupinfo' id='popupinfo'>
@@ -104,8 +116,18 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
             ?>
 
             <div class="projetslistecontainer">
+
+                <div class='pub_in_project'>
+                    <img class='round-logo' src='/img/Logo_Weeble.png' alt='Weeble'>
+                    <h2>Weeble</h2>
+                    <p>Rejoinez Weeble, un nouveau moteur de recherche sécuriser.</p>
+                    <p><a href='https://weeble.fr/' target='_blank'>Weeble.fr</a></p>
+                </div>
+                <br>
+                <br>
+
                 <h2>Voici les différents projets :</h2>
-                <div class="gridbuttonsprojects">
+                <div class="gridbuttonsprojects">                    
                     <?php
                     $sql = $pdo->query("SELECT id, title, description, user_id, likes, dislikes FROM projects ORDER BY RAND()");
                     while ($ligne = $sql->fetch(PDO::FETCH_ASSOC)) {
