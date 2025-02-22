@@ -1356,6 +1356,52 @@ nav {
     display: none; /* Cacher la barre en haut du site */
 }
 
+/* -----| Pub au milieu des projet |----- */
+.pub_in_project {
+    margin: 0 auto;
+    background: linear-gradient(135deg, #ffffff, #f0f3f5);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    width: 90%;
+    max-width: 400px;
+    z-index: 1000;
+    text-align: center;
+    border: 1px solid #d1d5db;
+}
+
+.pub_in_project h2 {
+    font-size: 1.5rem;
+    color: #333;
+    margin-bottom: 10px;
+    font-family: 'Arial', sans-serif;
+}
+
+.pub_in_project p {
+    font-size: 1rem;
+    color: #555;
+    line-height: 1.5;
+    margin-bottom: 15px;
+    font-family: 'Arial', sans-serif;
+}
+
+.pub_in_project img {
+    max-width: 100px;
+    margin-bottom: 20px;
+}
+
+.pub_in_project a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s ease-in-out;
+}
+
+.pub_in_project a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
 @media only screen and (max-width: 770px) {
     nav {
         height: calc(100vh - var(--topbar-height));
