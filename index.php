@@ -70,13 +70,20 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
 
             if ($showPub) {
 
+                echo "<div class='popuppubimg' id='popuppub'>
+                        <img src='/img/TERRIA-PUB.png' alt='TERRIA'>
+                        <p><a href='https://terria.eu/' target='_blank'>Rejoindre terria.eu !</a></p>
+                        <button class='close-btn' onclick='closepub()'>✖ Fermer</button>
+                    </div>";
+
+                /*
                 echo "<div class='popupinfo' id='popuppub'>
                         <img class='round-logo' src='/img/Logo_TERRIA.png' alt='TERRIA'>
                         <h2>TERRIA</h2>
                         <p>Rejoinez Terria, un serveur Minecraft INCROYABLE !!!</p>
                         <p><a href='https://terria.eu/' target='_blank'>terria.eu</a></p>
                         <button class='close-btn' onclick='closepub()'>✖ Fermer</button>
-                    </div>";
+                    </div>";*/
 
                 // Pour la pub de Weeble
                 /*
