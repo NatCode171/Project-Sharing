@@ -1367,6 +1367,60 @@ nav {
     display: none; /* Cacher la barre en haut du site */
 }
 
+/* -----| Pub avec image |----- */
+
+.popuppubimg {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: linear-gradient(135deg, #ceecff, #fdc5c5);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+    border-radius: 12px;
+    padding: 20px;
+    width: 90%;
+    max-width: 800px;
+    z-index: 1000;
+    text-align: center;
+    animation: popupfadeIn 0.4s ease-in-out;
+}
+
+.popuppubimg img {
+    width: 100%; /* L'image prendra toute la largeur de la div */
+    height: 100%; /* L'image prendra toute la hauteur de la div */
+    object-fit: cover; /* Pour que l'image garde ses proportions sans être déformée, mais couvre toute la div */
+    border-radius: 10px;
+}
+
+.popuppubimg a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s ease-in-out;
+}
+
+.popuppubimg a:hover {
+    color: #0056b3;
+    text-decoration: underline;
+}
+
+.popuppubimg .close-btn {
+    display: inline-block;
+    background-color: #f44336;
+    color: white;
+    font-size: 14px;
+    font-family: 'Arial', sans-serif;
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+.popuppubimg .close-btn:hover {
+    background-color: #d32f2f;
+}
+
 /* -----| Pub au milieu des projet |----- */
 .pub_in_project {
     display: flex;
