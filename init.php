@@ -30,6 +30,7 @@
     $targetPseudo = false;
     $subscribe = false;
     $subscribe = false;
+    $showedProject = false;
     $errors = [];
     $abonnesIds = [];
     $myabonnesIds = [];
