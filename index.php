@@ -47,6 +47,7 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
                     <p><a href="https://weeble.fr/" target="_blank">Weeble.fr</a></p>
                 </div>
             </div>
+            <br>
             
             <?php
             // popup pub ou info + discord
@@ -124,35 +125,56 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
                         <button class='close-btn' onclick='closeinfo()'>✖ Fermer</button>
                     </div>";
             }
-
-            allusers(false, false); // mysubscribe and subscribe
             ?>
 
             <div class="projetslistecontainer">
-                <h2>Voici les différents projets :</h2>
+                <form method="GET" action="/" class="search-bar">
+                    <input type="text" name="search" placeholder="Rechercher un projet..." />
+                    <button type="submit">Rechercher</button>
+                </form>
+            
                 <div class="gridbuttonsprojects">                    
                     <?php
-                    $sql = $pdo->query("SELECT id, title, description, user_id, likes, dislikes FROM projects ORDER BY RAND()");
-                    while ($ligne = $sql->fetch(PDO::FETCH_ASSOC)) {
+                    // Si un terme de recherche est fourni, on filtre les projets en fonction
+                    $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
+                    $sqlQuery = "SELECT id, title, description, user_id, likes, dislikes FROM projects";
+                    
+                    if ($searchTerm) {
+                        $sqlQuery .= " WHERE title LIKE :searchTerm OR description LIKE :searchTerm";
+                    }
+                    
+                    $sqlQuery .= " ORDER BY RAND()";
+            
+                    $stmt = $pdo->prepare($sqlQuery);
+                    if ($searchTerm) {
+                        $stmt->execute([':searchTerm' => '%' . $searchTerm . '%']);
+                    } else {
+                        $stmt->execute();
+                    }
+            
+                    while ($ligne = $stmt->fetch(PDO::FETCH_ASSOC)) {
+
+                        $showedProject = true;
+
                         $project_id = $ligne['id'];
                         $nb_project_like = (int)$ligne['likes'];
                         $nb_project_dislike = (int)$ligne['dislikes'];
                         $project_title = $ligne['title'];
                         $project_description = $ligne['description'];
                         $targetUser_id = $ligne['user_id'];
-        
+            
                         $sql_project = $pdo->prepare("SELECT pseudo FROM users WHERE id = ?");
                         $sql_project->execute([$targetUser_id]);
                         $result_project = $sql_project->fetch(PDO::FETCH_ASSOC);
-        
+            
                         $targetPseudo = $result_project ? htmlspecialchars($result_project['pseudo']) : "Utilisateur inconnu";
-
+            
                         echo '<a class="buttonsprojects" href="projects?id=' . urlencode($project_id) . '">';
                         echo "<h1>Projet de $targetPseudo</h1>
                             <h3>$project_title</h3>
                             <p>$project_description</p>";
-                            
-                        // afficher les likes/dislikes :
+            
+                        // Afficher les likes/dislikes
                         echo "<div class='like'><form method='POST' action='projects?gohome=1&id=" . urlencode($project_id) . "'>
                                 <input type='hidden' name='like' value='1'>
                                 <input type='hidden' name='project_id' value='$project_id'>
@@ -164,8 +186,7 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
                                 <button type='submit' class='like-button'><img src='/img/dislike.png' alt='Dislike'>$nb_project_dislike</button>
                             </form></div>";
                         echo "<span class='likeratio'>Ratio: " . ($nb_project_like - $nb_project_dislike) . "</span>";
-
-
+            
                         if ($myStatutInt === $statutAdmin || $targetUser_id === $myUser_id) {
                             echo "<form method='POST' action='/' enctype='multipart/form-data'>
                                     <input type='hidden' name='project_id' value='$project_id'>
@@ -173,6 +194,10 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
                                 </form>";
                         }
                         echo "</a>";   
+                    }
+
+                    if (!$showedProject) {
+                        echo "<div class='alert'>Aucun projets trouvé avec la recherche '$searchTerm'.";
                     }
                     ?>
                 </div>
