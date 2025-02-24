@@ -40,6 +40,7 @@ require_once 'init.php';
                     <li><strong>Des logs :</strong> Des logs ont été mis en place pour savoir qui a fait quoi et quand, pour plus de sécurité, mais c'est encore en cour de développement.</li>
                     <li><strong>Barre de navigation :</strong> La barre de navigation à été redessiné par <strong><a href="/profile?pseudo=Tomtom4500">Tomtom</a></strong> !</li>
                     <li><strong>Adaptation mobile :</strong> Une petite adaptation mobile pas encore tout à fait au point mais beaucoup plus jolie à été faite par <strong><a href="/profile?pseudo=Tomtom4500">Tomtom</a></strong> !</li>
+                    <li><strong>Modification de l'organisation :</strong> Nous voyons les utilisateurs maintenant dans la page "psusers" et plus à l'accueil. De plus il y a une barre de recherche pour rechercher des projet. Elle reste à améliorer mais au moins elle est là ;).</li>
                 </ul>
         
                 <h2>2. Développeurs</h2>
