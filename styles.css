@@ -546,57 +546,91 @@ nav {
     gap: var(--MainMargin);
 }
 
+/* -----| Projects |----- */
 .buttonsprojects {
-    max-width: 600px;
-    min-width: 400px;
-    color: #0077ff;
-    font-size: 1em;
-    background-color: #ffe6e6;
-    border: 1px solid #0077ff;
-    border-radius: 5px;
-    padding: 8px 10px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.204);
-    width: 50%;
+    display: block;
+    background: #1a1a1a;
+    color: #f1f1f1;
+    text-decoration: none;
+    padding: 20px;
+    border-radius: 15px;
+    margin: 20px 0;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    width: 80%;
+    height: 50%; 
+    overflow: hidden;
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    cursor: pointer;
-    position: relative;
-    transition: 0.5s;
+    justify-content: space-between;
 }
-
 .buttonsprojects:hover {
-    transition: 0.3s;
-    transform: translateY(-6px);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.485);
-    z-index: 5;
+    transform: scale(1.05);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.5);
 }
-
-/* Like et dislike (Les fameux mdr) */
-
+.buttonsprojects h1 {
+    font-family: 'Orbitron', sans-serif;
+    font-size: 24px;
+    color: #33ffcc;
+    margin-bottom: 10px;
+}
+.buttonsprojects h3 {
+    font-family: 'Roboto', sans-serif;
+    font-size: 20px;
+    color: #ffcc00;
+    margin-bottom: 15px;
+}
+.buttonsprojects p {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #f1f1f1;
+    line-height: 1.5;
+    margin-bottom: 15px;
+}
 .like, .dislike {
+    display: inline-block;
+    margin-right: 15px;
+}
+.like-button, .dislike-button {
+    background: transparent;
+    border: none;
+    color: #fff;
+    font-size: 16px;
     display: flex;
     align-items: center;
-    justify-content: center;
-}
-
-.like-button {
     cursor: pointer;
+    transition: color 0.3s ease;
+}
+.like-button img, .dislike-button img {
+    width: 20px;
+    margin-right: 5px;
+}
+.like-button:hover, .dislike-button:hover {
+    color: #33ffcc;
+}
+.likeratio {
+    display: inline-block;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    color: #ff6666;
+    margin-left: 15px;
+}
+.supr_project {
+    background: #ff3333;
     border: none;
-    background: none;
-    padding: 0;
-}
-
-.like img, .dislike img {
+    padding: 10px 20px;
+    color: #fff;
+    font-family: 'Roboto', sans-serif;
+    font-size: 14px;
+    border-radius: 5px;
     cursor: pointer;
-    width: 40px;
-    height: 40px;
+    transition: background 0.3s ease;
+}
+.supr_project:hover {
+    background: #cc0000;
 }
 
 /*Animations de like et de Dislike*/
-
 @keyframes fadeIn {
     from {
         opacity: 0;
@@ -1494,34 +1528,55 @@ nav {
 /* -----| Barre de recherche |----- */
 .search-bar {
     display: flex;
+    justify-content: center;
     align-items: center;
-    background: #f0f0f0;
-    padding: 5px;
-    border-radius: 20px;
-    max-width: 300px;
-    margin: auto;
+    background-color: #1a1a1a;
+    border-radius: 30px;
+    padding: 10px 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    width: 100%;
+    max-width: 600px; /* Largeur maximale de la barre */
+    margin: 20px auto;
 }
 
-.search-bar input[type="text"] {
-    flex: 1;
+.search-bar input {
+    background-color: #333;
+    color: #f1f1f1;
     border: none;
-    outline: none;
-    padding: 5px 10px;
     border-radius: 20px;
-    font-size: 14px;
+    padding: 10px 15px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    width: 80%;
+    margin-right: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.search-bar input:focus {
+    background-color: #444;
+    outline: none;
+    box-shadow: 0 0 10px #33ffcc;
 }
 
 .search-bar button {
+    background-color: #33ffcc;
+    color: #1a1a1a;
     border: none;
-    background: #ddd;
-    padding: 5px 10px;
     border-radius: 20px;
-    font-size: 14px;
+    padding: 10px 20px;
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
     cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.3s ease;
 }
 
 .search-bar button:hover {
-    background: #ccc;
+    background-color: #29cc99;
+    transform: scale(1.05);
+}
+
+.search-bar button:focus {
+    outline: none;
 }
 
 @media only screen and (max-width: 770px) {
