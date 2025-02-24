@@ -34,12 +34,12 @@ require_once 'init.php';
                 <ul>
                     <li><strong>Modification des <a href="https://project-sharing.fr.to/conditionsutilisation">conditions d'utilisation</a> :</strong> Les <strong><a href="https://project-sharing.fr.to/conditionsutilisation">conditions d'utilisation</a></strong> ont été modifiées.</li>
                     <li><strong>Correction de bugs :</strong> Des bugs ont été corrigés par ci par là sur le site, mais si vous en voyez d'autres, signalez-les nous sur le serveur Discord.</li>
-                    <li><strong>Collaboration :</strong> Nous avons toujours la collaboration avec Yatsuko et son moteur de recherche <strong><a href="https://weeble.fr/">Weeble</a></strong>.</li>
+                    <li><strong>Collaboration :</strong> Nous avons toujours la collaboration avec <strong><a href="/profile?pseudo=Yatsuko">Yatsuko</a></strong> et son moteur de recherche <strong><a href="https://weeble.fr/">Weeble</a></strong> mais nous avons également une collaboration avec <strong><a href="/profile?pseudo=Johan">Johan</a></strong> et son serveur minecraft <strong><a href="https://terria.eu/" target="_blank">TERRIA</a></strong> !!!</li>
                     <li><strong>Premium :</strong> Un système de compte premium encore en cours de développement, mais les personnes qui sont premium peuvent mettre l'identifiant de leur chaîne YouTube, et la dernière vidéo s'affichera en dessous de leur compte (pas encore au point...).</li>
-                    <li><strong>Page "404" et "403" :</strong> La page "404" et "403" a été créée (Par <li><strong><a href="/profile?pseudo=Clovis">Clovis</a></strong></li>).</li>
+                    <li><strong>Page "404" et "403" :</strong> La page "404" et "403" a été créée Par <strong><a href="/profile?pseudo=Clovis">Clovis</a></strong>.</li>
                     <li><strong>Des logs :</strong> Des logs ont été mis en place pour savoir qui a fait quoi et quand, pour plus de sécurité, mais c'est encore en cour de développement.</li>
-                    <li><strong>Barre de navigation :</strong> La barre de navigation à été redessiné par <li><strong><a href="/profile?pseudo=Tomtom4500">Tomtom</a></strong></li> !</li>
-                    <li><strong>Adaptation mobile :</strong> Une petite adaptation mobile pas encore tout à fait au point mais beaucoup plus jolie à été faite par <li><strong><a href="/profile?pseudo=Tomtom4500">Tomtom</a></strong></li> !</li>
+                    <li><strong>Barre de navigation :</strong> La barre de navigation à été redessiné par <strong><a href="/profile?pseudo=Tomtom4500">Tomtom</a></strong> !</li>
+                    <li><strong>Adaptation mobile :</strong> Une petite adaptation mobile pas encore tout à fait au point mais beaucoup plus jolie à été faite par <strong><a href="/profile?pseudo=Tomtom4500">Tomtom</a></strong> !</li>
                 </ul>
         
                 <h2>2. Développeurs</h2>
