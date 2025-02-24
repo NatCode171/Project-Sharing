@@ -1491,6 +1491,38 @@ nav {
     border-radius: 50%;
 }
 
+/* -----| Barre de recherche |----- */
+.search-bar {
+    display: flex;
+    align-items: center;
+    background: #f0f0f0;
+    padding: 5px;
+    border-radius: 20px;
+    max-width: 300px;
+    margin: auto;
+}
+
+.search-bar input[type="text"] {
+    flex: 1;
+    border: none;
+    outline: none;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+}
+
+.search-bar button {
+    border: none;
+    background: #ddd;
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.search-bar button:hover {
+    background: #ccc;
+}
 
 @media only screen and (max-width: 770px) {
     nav {
