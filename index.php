@@ -47,10 +47,13 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
                     <p><a href="https://weeble.fr/" target="_blank">Weeble.fr</a></p>
                 </div>
             </div>
-
+            
             <?php
-            // popup pub ou info
+            // popup pub ou info + discord
             if ($myUser_id) {
+                if ($myPopupDiscord) {
+                    $showDiscord = true;
+                }
                 if ($my_info_ou_pub != $info_ou_pub) {
                     if ($info_ou_pub == 1) {
                         $showPub = true;
@@ -61,6 +64,9 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
                 $sql = $pdo->prepare("UPDATE users SET info_ou_pub = ? WHERE id = ?");
                 $sql->execute([$info_ou_pub, $myUser_id]);
             } else {
+                if ($popupDiscord) {
+                    $showDiscord = true;
+                }
                 if ($info_ou_pub === 1) {
                     $showPub = true;
                 } elseif ($info_ou_pub === 2) {
@@ -68,8 +74,21 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
                 }
             }
 
-            if ($showPub) {
+            // popup discord
+            if ($showDiscord) {
+                echo "<div class='popup' id='popupdiscord'>
+                        <p>Qu'attends-tu pour rejoindre le serveur Discord de Project Sharing ?
+                        <a href='https://discord.gg/zzSkXwGXqT' target='_blank'>Rejoindre Discord</a>";
+                if ($myUser_id) {
+                    echo "<button class='close-btn' onclick='nevershowagaindiscord()'>(Ne plus afficher)</button>";
+                }
+                echo "</p>
+                    <button class='close-btn' onclick='closepopupdiscord()'>✖</button>
+                    </div>";
+            }
 
+            // popup pub ou info
+            if ($showPub) {
                 echo "<div class='popuppubimg' id='popuppub'>
                         <img src='/img/TERRIA-PUB.png' alt='TERRIA'>
                         <p><a href='https://terria.eu/' target='_blank'>Rejoindre terria.eu !</a></p>
@@ -107,28 +126,6 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
             }
 
             allusers(false, false); // mysubscribe and subscribe
-
-            // popup discord
-            if ($myUser_id) {
-                if ($myPopupDiscord) {
-                    $showDiscord = true;
-                }
-            } else {
-                if ($popupDiscord) {
-                    $showDiscord = true;
-                }
-            }
-            if ($showDiscord) {
-                echo "<div class='popup' id='popupdiscord'>
-                        <p>Qu'attends-tu pour rejoindre le serveur Discord de Project Sharing ?
-                        <a href='https://discord.gg/zzSkXwGXqT' target='_blank'>Rejoindre Discord</a>";
-                if ($myUser_id) {
-                    echo "<button class='close-btn' onclick='nevershowagaindiscord()'>(Ne plus afficher)</button>";
-                }
-                echo "</p>
-                    <button class='close-btn' onclick='closepopupdiscord()'>✖</button>
-                    </div>";
-            }
             ?>
 
             <div class="projetslistecontainer">
