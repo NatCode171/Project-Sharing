@@ -114,18 +114,23 @@ if ($result) {
         <div class="main">
             <?php
                 echo "<div class='projects'>
-                      <h1>Projet de $targetPseudo</h1>
-                      <h3>$title</h3>
-                      <p>$description</p><ul>
-                      <div class='like'><form method='POST' action=''>
-                        <input type='hidden' name='like' value='1'>
-                        <button type='submit' class='like-button'><img src='/img/like.png' alt='Like'>$likes</button>
-                    </form></div>
-                    <div class='dislike'><form method='POST' action=''>
-                        <input type='hidden' name='dislike' value='1'>
-                        <button type='submit' class='like-button'><img src='/img/dislike.png' alt='Dislike'>$dislikes</button>
-                    </form></div>
-                    <span class='likeratio'>Ratio: " . ($likes - $dislikes) . "</span>";
+                        <h1>Projet de $targetPseudo</h1>
+                        <h3>$title</h3>
+                        <p>$description</p><ul>
+                        <div class='like'>
+                          <form method='POST' action=''>
+                            <input type='hidden' name='like' value='1'>
+                            <button type='submit' class='like-button'><img src='/img/like.png' alt='Like'>$likes</button>
+                          </form>
+                        </div>
+                        <div class='dislike'>
+                          <form method='POST' action=''>
+                            <input type='hidden' name='dislike' value='1'>
+                            <button type='submit' class='like-button'>
+                            <img src='/img/dislike.png' alt='Dislike'>$dislikes</button>
+                          </form>
+                        </div>
+                        <span class='likeratio'>Ratio: " . ($likes - $dislikes) . "</span>";
 
                 $dir = __DIR__ . "/users/$targetUser_id/$project_id/";
 
