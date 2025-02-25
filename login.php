@@ -1,4 +1,5 @@
-<?php 
+<?php
+ob_start();
 require_once 'init.php';
     
 if (isset($_POST['confirmation']) && $_POST['confirmation'] === 'yes') {
@@ -136,6 +137,7 @@ if (isset($_POST['confirmation']) && $_POST['confirmation'] === 'yes') {
                             $loginErrors['email'] = "<div class='alert'>Email non valide.</div>";
                         }
                     }
+                    ob_end_flush();
                     ?>
                     <label for="email">Votre Email :</label>
                     <br>
