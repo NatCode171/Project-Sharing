@@ -169,23 +169,25 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
             
                         $targetPseudo = $result_project ? htmlspecialchars($result_project['pseudo']) : "Utilisateur inconnu";
             
-                        echo '<a class="buttonsprojects" href="projects?id=' . urlencode($project_id) . '">';
-                        echo "<h1>Projet de $targetPseudo</h1>
-                            <h3>$project_title</h3>
-                            <p>$project_description</p>";
-            
-                        // Afficher les likes/dislikes
-                        echo "<div class='like'><form method='POST' action='projects?gohome=1&id=" . urlencode($project_id) . "'>
-                                <input type='hidden' name='like' value='1'>
-                                <input type='hidden' name='project_id' value='$project_id'>
-                                <button type='submit' class='like-button'><img src='/img/like.png' alt='Like'>$nb_project_like</button>
-                            </form></div>";
-                        echo "<div class='dislike'><form method='POST' action='projects?gohome=1&id=" . urlencode($project_id) . "'>
-                                <input type='hidden' name='dislike' value='1'>
-                                <input type='hidden' name='project_id' value='$project_id'>
-                                <button type='submit' class='like-button'><img src='/img/dislike.png' alt='Dislike'>$nb_project_dislike</button>
-                            </form></div>";
-                        echo "<span class='likeratio'>Ratio: " . ($nb_project_like - $nb_project_dislike) . "</span>";
+                        echo "<div class='buttonsprojects'>
+                                <a href='projects?id=" . urlencode($project_id) . "'>
+                                <h1>Projet de $targetPseudo</h1>
+                                <h3>$project_title</h3>
+                                <p>$project_description</p>
+                                <div class='like'>
+                                  <form method='POST' action='projects?gohome=1&id=" . urlencode($project_id) . "'>
+                                    <input type='hidden' name='like' value='1'>
+                                    <input type='hidden' name='project_id' value='$project_id'>
+                                    <button type='submit' class='like-button'><img src='/img/like.png' alt='Like'>$nb_project_like</button>
+                                  </form>
+                                </div>
+                                <div class='dislike'>
+                                  <form method='POST' action='projects?gohome=1&id=" . urlencode($project_id) . "'>
+                                    <input type='hidden' name='dislike' value='1'>
+                                    <input type='hidden' name='project_id' value='$project_id'>
+                                    <button type='submit' class='like-button'><img src='/img/dislike.png' alt='Dislike'>$nb_project_dislike</button>
+                                  </form>
+                                </div>";
             
                         if ($myStatutInt === $statutAdmin || $targetUser_id === $myUser_id) {
                             echo "<form method='POST' action='/' enctype='multipart/form-data'>
@@ -193,7 +195,7 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
                                     <input type='submit' name='supr_project' class='supr_project' value='Supprimer'>
                                 </form>";
                         }
-                        echo "</a>";   
+                        echo "</a></div><br><br>";   
                     }
 
                     if (!$showedProject) {
