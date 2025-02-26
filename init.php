@@ -15,6 +15,7 @@
     $statutModo = 2;
     $statutUser = 1;
     $showPub = false;
+    $logoPath = null;
     $jesuisabo = false;
     $showInfo = false;
     $showDiscord = false;
@@ -31,6 +32,7 @@
     $subscribe = false;
     $subscribe = false;
     $showedProject = false;
+    $code = false;
     $errors = [];
     $abonnesIds = [];
     $myabonnesIds = [];
@@ -364,6 +366,10 @@
         return $logoDirectory;
     }
 
+    // Supprimer les codes expirés lorsqu'on se registre
+    $stmt = $pdo->prepare("DELETE FROM code_register WHERE date < (NOW() - INTERVAL 15 MINUTE)");
+    $stmt->execute();
+
     // suprimer les comptes en cours de supresion si cela fais plus de 30 jours !
     try {    
         $sql = $pdo->query("SELECT user_id, date FROM delete_account");
@@ -414,7 +420,7 @@
                             reset($objects);
                             rmdir($userDir);
                         }
-    
+
                         // Validation de la transaction
                         $pdo->commit();
                     } catch (Exception $e) {
