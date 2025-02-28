@@ -125,18 +125,19 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
                         <button class='close-btn' onclick='closeinfo()'>✖ Fermer</button>
                     </div>";
             }
+
+
+            $searchTerm = trim(htmlspecialchars(isset($_GET['search']))) ? trim(htmlspecialchars($_GET['search'])) : '';
             ?>
 
             <div class="projetslistecontainer">
                 <form method="GET" action="/" class="search-bar">
-                    <input type="text" name="search" placeholder="Rechercher un projet..." />
+                    <input type="text" name="search" placeholder="Rechercher un projet..." value="<?php echo $searchTerm; ?>" />
                     <button type="submit">Rechercher</button>
                 </form>
             
                 <div class="gridbuttonsprojects">                    
                     <?php
-                    // Si un terme de recherche est fourni, on filtre les projets en fonction
-                    $searchTerm = isset($_GET['search']) ? $_GET['search'] : '';
                     $sqlQuery = "SELECT id, title, description, user_id, likes, dislikes FROM projects";
                     
                     if ($searchTerm) {
