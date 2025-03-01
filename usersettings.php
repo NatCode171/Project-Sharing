@@ -1,4 +1,5 @@
 <?php
+ob_start();
 require_once 'init.php';
 ?>
 
@@ -142,7 +143,7 @@ L’équipe Project-Sharing
                                     echo "<div class='alert'><p>Erreur lors de la mise à jour.</p></div>";
                                 }
                             } else {
-                                $update_query = "UPDATE users SET pseudo = ?, email = ?, is_public = ?, bio = ?, new_idChannelYt = ? WHERE id = ?";
+                                $update_query = "UPDATE users SET pseudo = ?, email = ?, is_public = ?, bio = ?, idChannelYt  = ? WHERE id = ?";
                                 $stmt_update = $pdo->prepare($update_query);
                                 if ($stmt_update->execute([$new_pseudo, $new_email, $new_is_public, $new_bio, $new_idChannelYt, $myUser_id])) {
                                     header('Location: /');
@@ -191,9 +192,9 @@ L’équipe Project-Sharing
                     <?php if (isset($errors['email'])) echo $errors['email']; ?>
                     <br>
 
-                    <?php if ($myPremium == 1) {
+                    <?php
+                    if ($myPremium == 1) {
                         ?>
-
                         <label for="idChannelYt">Chaîne YouTube :</label>
                         <h4>Entrez l'ID de votre chaîne YouTube pour qu'elle apparaisse en bas de votre profil !</h4>
                         <input type="text" name="idChannelYt" id="idChannelYt" value="<?php echo htmlspecialchars($myIdChannelYt, ENT_QUOTES); ?>" required>
@@ -202,6 +203,7 @@ L’équipe Project-Sharing
 
                         <?php
                     }
+                    ob_end_flush();
                     ?>
 
                     <label for="is_public">Confidentialité :</label>
