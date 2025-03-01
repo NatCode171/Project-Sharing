@@ -1,4 +1,5 @@
 <?php
+ob_start();
 require_once 'init.php';
 ?>
 
@@ -106,7 +107,7 @@ require_once 'init.php';
                         'id' => $myUser_id_to_edit
                     ]);
                     location("/");
-
+                    ob_end_flush();
                 }
                 ?>
                 <h1>Modifier les paramètres de l'utilisateur</h1>
