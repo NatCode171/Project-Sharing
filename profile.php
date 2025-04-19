@@ -1,5 +1,18 @@
 <?php
 require_once 'init.php';
+
+if (isset($_POST['supr_signalement'])) {
+    $sql = $pdo->prepare("DELETE FROM user_reports WHERE user_id_who_reported = :user_id");
+    $sql->bindValue(":user_id", $myUser_id);
+    $sql->execute();
+    
+    if ($sql->rowCount() > 0) {
+        header("Location: $url");
+        exit();
+    } else {
+        echo "<div class='alert'><h3>Erreur lors de la suppression du commentaire.</h3></div>";
+    }                                       
+}
 ?>
 
 <!DOCTYPE html>
@@ -48,8 +61,7 @@ require_once 'init.php';
                         $targetIdChannelYt = $user['idChannelYt'];
                         $targetPremium = (int)$user['premium'];
 
-                        $encoded_pseudo = urlencode($targetPseudo);
-                        $user_profile_url = '/profile?pseudo=' . $encoded_pseudo;
+                        $user_profile_url = '/profile?pseudo=' . urlencode($targetPseudo);
 
                         $sql2 = $pdo->prepare("SELECT id FROM abonnements WHERE user_id_who_abo = ? AND user_id = ?");
                         $sql2->execute([$myUser_id, $targetUser_id]);
@@ -77,8 +89,8 @@ require_once 'init.php';
                             $sql->execute([$targetUser_id, $myUser_id]);
                         }
 
-                        echo '<h1>Profil de ' . $targetPseudo . '</h1>
-                        <div class="user-profile">';
+                        echo "<h1>Profil de $targetPseudo</h1>
+                              <div class='user-profile'>";
                         
                         $logoDirectory = "/users/$targetUser_id/logo.png";
                         if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $logoDirectory)) {
@@ -86,20 +98,20 @@ require_once 'init.php';
                         }
                         echo "<img class='logo' src='$logoDirectory' alt='Logo'>";
 
-                        echo '<p><strong>Pseudo:</strong> ' . $targetPseudo;
+                        echo "<p><strong>Pseudo:</strong>$targetPseudo";
 
                         if ($certified) {
                             echo '✔️';
                         }
                     
-                        echo '<br><strong>Statut:</strong> ' . $targetStatut . '<br><strong>Rôle:</strong> ' . $targetRole . '<br>';
+                        echo "<br><strong>Statut:</strong>$targetStatut<br><strong>Rôle:</strong>$targetRole<br>";
 
                         if ($is_public === 1) {
-                            echo '<strong>Email:</strong> ' . $email . '<br><strong>Confidentialité:</strong> Public</p>';
+                            echo "<strong>Email:</strong>$email<br><strong>Confidentialité:</strong> Public</p>";
                         } else {
                             $email_parts = explode('@', $email);
                             $masked_email = str_repeat('*', strlen($email_parts[0])) . '@' . $email_parts[1];
-                            echo '<strong>Email:</strong> ' . $masked_email . '<br><strong>Confidentialité:</strong> Privé</p>';
+                            echo "<strong>Email:</strong>$masked_email<br><strong>Confidentialité:</strong> Privé</p>";
                         }
 
                         $sql = $pdo->prepare("SELECT COUNT(*) FROM abonnements WHERE user_id = ?");
@@ -107,9 +119,9 @@ require_once 'init.php';
                         $nb_abo = $sql->fetchColumn();
                         
                         if ($nb_abo < 2) {
-                            echo "<h2>" . $nb_abo . " abonné</h2>";
+                            echo "<h2>$nb_abo abonné</h2>";
                         } else {
-                            echo "<h2>" . $nb_abo . " abonnés</h2>";
+                            echo "<h2>$nb_abo abonnés</h2>";
                         }
 
                         if ($myUser_id && $myUser_id != $targetUser_id) {
@@ -126,18 +138,17 @@ require_once 'init.php';
                                 echo "<button type='submit'>S'abonner</button>";
                             }
 
-                            echo "</form>";
-                            echo "<br><br>";
+                            echo "</form><br><br>";
                         }
 
                         if ($bio) {
-                            echo "<strong>Biographie:</strong>";
-                            echo "<br>";
-                            echo "<div class='ma_bio'>$bio</div>";
+                            echo "<strong>Biographie:</strong>
+                                  <br>
+                                  <div class='ma_bio'>$bio</div>";
                         }
 
                         echo '<a href="/"><button>Accueil</button></a>
-                        </div>';
+                              </div>';
                     } else {
                         echo "Utilisateur non trouvé.";
                     }
@@ -154,16 +165,16 @@ require_once 'init.php';
                         }
 
                         if ($targetStatutInt != $statutAdmin && $targetUser_id != $myUser_id) {
-                            echo '<br>
-                            <div class="signaler">
-                                <form method="POST" action="profile">
-                                    <br>
-                                    <label for="reason">Raison du signalement :</label>
-                                    <br>
-                                    <textarea id="reason" name="reason" required></textarea>
-                                    <button type="submit">Signaler l\'utilisateur</button>
-                                </form>
-                            </div>';
+                            echo "<br>
+                                    <div class='signaler'>
+                                      <form method='POST' action='$user_profile_url'>
+                                      <br>
+                                      <label for='reason'>Raison du signalement :</label>
+                                      <br>
+                                      <textarea id='reason' name='reason' required></textarea>
+                                      <button type='submit'>Signaler l'utilisateur</button>
+                                    </form>
+                                  </div>";
                         }
                     }
 
@@ -203,29 +214,16 @@ require_once 'init.php';
                             echo '<p>Signalé par <strong>' . htmlspecialchars($result_pseudo['pseudo']) . '</strong> le <u>' . $formatted_date . '</u> pour la raison : <br>' . htmlspecialchars($report['reason']) . '</p>';
                             
                             if ($myUser_id_who_reported == $myUser_id) {
-                                echo '<form method="POST" action="/profile?pseudo=' . urlencode($targetPseudo) . '" enctype="multipart/form-data">
-                                        <input type="submit" name="supr_signalement" class="supr_signalement" value="Supprimer">
-                                    </form>';
+                                echo "<form method='POST' action='$user_profile_url' enctype='multipart/form-data'>
+                                        <input type='submit' name='supr_signalement' class='supr_signalement' value='Supprimer'>
+                                      </form>";
                             }
-                        }
-
-                        if (isset($_POST['supr_signalement'])) {
-                            $sql = $pdo->prepare("DELETE FROM user_reports WHERE user_id_who_reported = :user_id");
-                            $sql->bindValue(":user_id", $myUser_id);
-                            $sql->execute();
-                            
-                            if ($sql->rowCount() > 0) {
-                                header("Location: $url");
-                                exit();
-                            } else {
-                                echo "<h3>Erreur lors de la suppression du commentaire.</h3>";
-                            }                                       
-                        }  
+                        } 
                     }
 
                     if (($targetStatutInt === $statutModo) && $targetIdChannelYt != null) {
                         echo "<div class='NatcodeYtVideo'>";
-                            require_once "videoapi.php";
+                        require_once "videoapi.php";
                         echo "</div>";
                     }
                 ?>
