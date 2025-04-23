@@ -38,6 +38,7 @@ require_once 'init.php';
                         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                             $targetEmail = htmlspecialchars($_POST['email'], ENT_QUOTES, 'UTF-8');
+                            $newpassword = $_POST['password'];
                             
                             $targetCode =(int)$_POST['code'];
                                 
@@ -73,7 +74,24 @@ require_once 'init.php';
                                                         $remainingTime = 60 * 15 - floor(($currentTime - $lastAttempt) / 60);
                                                         $forgotpasswordErrors = "<div class='alert'>Délais dépassé.";
                                                     } else {
-                                                        // tout est bon on peut modifier le mot de passe
+                                                        if (strlen($password) < 8 || 
+                                                            !preg_match('/\d/', $password) || 
+                                                            !preg_match('/[a-z]/', $password) || 
+                                                            !preg_match('/[A-Z]/', $password) || 
+                                                            !preg_match('/[\W_]/', $password)) {
+                                                            $codeErrorspassword['password'] = "<div class='alert'>Votre mot de passe doit contenir au moins 8 caractères, incluant une lettre minuscule, une lettre majuscule, un chiffre et un caractère spécial.</div>";
+                                                        } else {
+                                                            $new_password_hashed = password_hash($new_password, PASSWORD_DEFAULT);
+
+                                                            $update_query = "UPDATE users SET password = ? WHERE id = ?";
+                                                            $stmt_update = $pdo->prepare($update_query);
+                                                            if ($stmt_update->execute([$new_password_hashed, $target_user_id])) {
+                                                                header('Location: /');
+                                                                exit();
+                                                            } else {
+                                                                $codeErrorspassword['password'] = "<div class='alert'><p>Erreur lors de la mise à jour.</p></div>";
+                                                            }
+                                                        }
                                                     }
                                                 }
                                             } else {
@@ -100,6 +118,12 @@ require_once 'init.php';
                     <br>
                     <input type="text" id="code" name="code" required value="<?php echo isset($_POST['code']) ? $_POST['code'] : ''; ?>">
                     <?php if (isset($codeErrors)) { echo $codeErrors . "<br>"; } ?>
+                    <br>
+
+                    <label for="password">Nouveau mot de passe :</label>
+                    <br>
+                    <input type="text" id="password" name="password" required value="<?php echo isset($_POST['password']) ? $_POST['password'] : ''; ?>">
+                    <?php if (isset($codeErrorspassword)) { echo $codeErrorspassword . "<br>"; } ?>
                     <br>
                     <button type="submit">Envoyer</button>
                 </form>
