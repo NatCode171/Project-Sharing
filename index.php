@@ -90,12 +90,6 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
 
             // popup pub ou info
             if ($showPub) {
-                echo "<div class='popuppubimg' id='popuppub'>
-                        <img src='/img/TERRIA-PUB.png' alt='TERRIA'>
-                        <p><a href='https://terria.eu/' target='_blank'>Rejoindre terria.eu !</a></p>
-                        <button class='close-btn' onclick='closepub()'>✖ Fermer</button>
-                    </div>";
-
                 /*
                 echo "<div class='popupinfo' id='popuppub'>
                         <img class='round-logo' src='/img/Logo_TERRIA.png' alt='TERRIA'>
@@ -104,7 +98,6 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
                         <p><a href='https://terria.eu/' target='_blank'>terria.eu</a></p>
                         <button class='close-btn' onclick='closepub()'>✖ Fermer</button>
                     </div>";*/
-
                 // Pour la pub de Weeble
                 /*
                 echo "<div class='popupinfo' id='popuppub'>
