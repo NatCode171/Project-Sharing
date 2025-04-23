@@ -78,14 +78,13 @@ if (isset($_POST['confirmation']) && $_POST['confirmation'] === 'yes') {
                                         $subject = "Tentatives de connexion échouées sur Project-Sharing.";
                                         $content = "Bonjour $targetPseudo,
 
-            Nous avons détecté plusieurs tentatives de connexion échouées sur votre compte Project-Sharing.fr.to.
-            Pour votre sécurité, nous vous conseillons également de modifier votre mot de passe si vous soupçonnez une tentative d'accès non autorisée à votre compte.
+Nous avons détecté plusieurs tentatives de connexion échouées sur votre compte Project-Sharing.fr.to.
+Pour votre sécurité, nous vous conseillons également de modifier votre mot de passe si vous soupçonnez une tentative d'accès non autorisée à votre compte.
 
-            Si vous avez des questions ou si vous avez besoin d'assistance, n'hésitez pas à nous contacter à l'adresse suivante : natcode@project-sharing.fr.to.
+Si vous avez des questions ou si vous avez besoin d'assistance, n'hésitez pas à nous contacter à l'adresse suivante : natcode@project-sharing.fr.to.
 
-            Cordialement,
-            L'équipe Project-Sharing.
-                                        ";
+Cordialement,
+L'équipe Project-Sharing.";
                                         sendmail("info@project-sharing.fr.to", $targetEmail, $subject, $content);
                                     } elseif ($nb >= 3 && ($currentTime - $lastAttempt) >= 15 * 60) {
                                         $sql = $pdo->prepare("DELETE FROM checklogin WHERE email = ?");
@@ -157,6 +156,9 @@ if (isset($_POST['confirmation']) && $_POST['confirmation'] === 'yes') {
                     <br>
 
                     <button type="submit">Envoyer</button>
+
+                    <br>
+                    <a href="/forgotpassword">Mot de passe oublié ?</a>
                 </form>
             </div>
         </div>
