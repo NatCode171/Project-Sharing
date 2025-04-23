@@ -33,6 +33,7 @@
     $subscribe = false;
     $showedProject = false;
     $code = false;
+    $we_can_send_email_for_password = True;
     $errors = [];
     $abonnesIds = [];
     $myabonnesIds = [];
