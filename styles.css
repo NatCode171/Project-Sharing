@@ -1518,6 +1518,84 @@ nav {
     outline: none;
 }
 
+/* Page de forgotpassword */
+
+
+.forgotpassword {
+    background: linear-gradient(to right, rgba(74, 144, 226, 0.4), rgba(142, 45, 226, 0.4));
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.526);
+    background-color: #fff;
+    text-align: center;
+    padding: var(--MainPadding);
+    border-radius: 10px;
+    max-width: 500px;
+    width: 100%;
+    margin: 0;
+}
+
+.forgotpassword h1 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.forgotpassword form {
+    display: flex;
+    flex-direction: column;
+}
+
+.forgotpassword label {
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: inline-block;
+    color: #444;
+}
+
+.forgotpassword input[type="text"] {
+    text-align: center;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-size: 16px;
+    width: calc(100% - 22px);
+}
+
+.forgotpassword button {
+    text-align: center;
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.forgotpassword button:hover {
+    background-color: #0056b3;
+}
+
+.forgotpassword #retour {
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    width: 100%;
+    margin-top: 10px;
+    font-size: 16px;
+}
+
+.forgotpassword #retour:hover {
+    background-color: #0056b3;
+}
+
 @media only screen and (max-width: 770px) {
     .pub_in_project, .popuppubimg {
         display: none;
