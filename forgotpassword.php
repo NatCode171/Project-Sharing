@@ -71,12 +71,12 @@ require_once 'init.php';
                                     // Ajout de la nouvelle entrée
                                     $sql = $pdo->prepare("INSERT INTO sendforgotpassword (email, nb, timestamp) VALUES (?, 1, NOW())");
                                     $sql->execute([$targetEmail]);
+                                    $we_can_send_email_for_password = True;
                                 }
+                            }
+                            if ($ban) {
+                                $errorautre = "<div class='alert'><strong>Vous avez été banni de Project Sharing, voici la ou les raison(s) :</strong><br><br>$ban_reason</div>";
                             } else {
-                                if ($ban) {
-                                    die("<div class='alert'><strong>Vous avez été banni de Project Sharing, voici la ou les raison(s) :</strong><br><br>$ban_reason</div>");
-                                }
-
                                 if ($we_can_send_email_for_password == True) {
 
                                     $url = (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on' ? "https" : "http");
@@ -127,6 +127,7 @@ L'équipe Project-Sharing.";
                     <input type="text" id="email" name="email" required value="<?php echo isset($_POST['email']) ? $_POST['email'] : ''; ?>">
                     <?php if (isset($forgotpasswordErrors)) { echo $forgotpasswordErrors . "<br>"; } ?>
                     <br>
+                    <?php if (isset($errorautre)) { echo $errorautre . "<br>"; } ?>
                     <button type="submit">Envoyer</button>
                 </form>
             </div>
