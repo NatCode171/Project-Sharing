@@ -4,7 +4,7 @@ require_once 'init.php';
 $project_id = isset($_GET['id']) ? htmlspecialchars($_GET['id'], ENT_QUOTES, 'UTF-8') : false;
 
 if (!$project_id) {
-    echo "<h1><div class='projects'> <div class='alert'><strong>ID invalide !</strong></div></div></h1>";
+    echo "<h1><div class='projects'><div class='alert'><strong>ID invalide !</strong></div></div></h1>";
     exit();
 }
 
@@ -82,8 +82,13 @@ if ($result) {
         }
 
         if (isset($_GET["gohome"])) {
-            header("Location: /");
-            exit;
+            if ($_GET["gohome"] == "1") {
+                header("Location: /");
+                exit;
+            } else {
+                header("Location: /myprojects");
+                exit;
+            }
         }
     }
 ?>
