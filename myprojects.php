@@ -49,7 +49,7 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
                 </div>
                 <div class="gridbuttonsprojects">
                     <?php
-                    $sql = $pdo->prepare("SELECT id, title, description FROM projects WHERE user_id = ?");
+                    $sql = $pdo->prepare("SELECT id, title, description, timestamp, likes, dislikes FROM projects WHERE user_id = ?");
                     $sql->execute([$myUser_id]);
 
                     if ($sql->rowCount() > 0) {
@@ -57,15 +57,35 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
                             $project_id = $ligne['id'];
                             $project_title = $ligne['title'];
                             $project_description = $ligne['description'];
+                            $project_timestamp = $ligne['timestamp'];
+                            $nb_project_like = $ligne['likes'];
+                            $nb_project_dislike = $ligne['dislikes'];
                     
                             echo '<a class="buttonsprojects" href="projects?id=' . urlencode($project_id) . '">';
                             echo "<h3>$project_title</h3>
                                 <p>$project_description</p>
+                                <h4>Créer le : $project_timestamp</h4>
+                                <div class='like'>
+                                  <form method='POST' action='projects?gohome=2&id=" . urlencode($project_id) . "'>
+                                    <input type='hidden' name='like' value='1'>
+                                    <input type='hidden' name='project_id' value='$project_id'>
+                                    <button type='submit' class='like-button'><img src='/img/like.png' alt='Like'>$nb_project_like</button>
+                                  </form>
+                                </div>
+                                <div class='dislike'>
+                                  <form method='POST' action='projects?gohome=2&id=" . urlencode($project_id) . "'>
+                                    <input type='hidden' name='dislike' value='1'>
+                                    <input type='hidden' name='project_id' value='$project_id'>
+                                    <button type='submit' class='like-button'><img src='/img/dislike.png' alt='Dislike'>$nb_project_dislike</button>
+                                  </form>
+                                </div>
                                 <form method='POST' action='/myprojects' enctype='multipart/form-data'>
                                     <input type='hidden' name='project_id' value='$project_id'>
                                     <input type='submit' name='supr_project' class='supr_project' value='Supprimer'>
                                 </form>
-                                </a>";
+                                </a>
+                                <br>
+                                <br>";
                         }
                     } else {
                         echo "<div class='alert'><p>Aucun projet trouvé.</p></div>
