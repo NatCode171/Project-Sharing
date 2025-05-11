@@ -131,20 +131,34 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
             
                 <div class="gridbuttonsprojects">                    
                     <?php
-                    $sqlQuery = "SELECT id, title, description, user_id, likes, dislikes FROM projects";
-                    
+
+                    $like_rand_score = mt_rand(55, 70) / 100;
+                    $date_rand_score = 1 - $like_rand_score;
+
+
+                    $sqlQuery = "SELECT id, title, description, user_id, likes, dislikes, timestamp,
+                        (likes * :like_rand_score + (UNIX_TIMESTAMP(NOW()) - UNIX_TIMESTAMP(timestamp)) * -0.000001 * :date_rand_score) AS score FROM projects";
+                        
                     if ($searchTerm) {
-                        $sqlQuery .= " WHERE title LIKE :searchTerm OR description LIKE :searchTerm";
-                    }
-                    
-                    $sqlQuery .= " ORDER BY RAND()";
-            
-                    $stmt = $pdo->prepare($sqlQuery);
-                    if ($searchTerm) {
-                        $stmt->execute([':searchTerm' => '%' . $searchTerm . '%']);
+                        $sqlQuery .= " WHERE timestamp LIKE :searchTerm OR title LIKE :searchTerm OR description LIKE :searchTerm";
+                        $params = [
+                            ':searchTerm' => '%' . $searchTerm . '%',
+                            ':like_rand_score' => $like_rand_score,
+                            ':date_rand_score' => $date_rand_score
+                        ];
                     } else {
-                        $stmt->execute();
+                        $params = [
+                            ':like_rand_score' => $like_rand_score,
+                            ':date_rand_score' => $date_rand_score
+                        ];
                     }
+                
+                    // On trie par score décroissant
+                    $sqlQuery .= " ORDER BY score DESC";
+                    
+                    $stmt = $pdo->prepare($sqlQuery);
+                    $stmt->execute($params);
+
             
                     while ($ligne = $stmt->fetch(PDO::FETCH_ASSOC)) {
 
@@ -156,6 +170,7 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
                         $project_title = $ligne['title'];
                         $project_description = $ligne['description'];
                         $targetUser_id = $ligne['user_id'];
+                        $project_timestamp = $ligne['timestamp'];
             
                         $sql_project = $pdo->prepare("SELECT pseudo FROM users WHERE id = ?");
                         $sql_project->execute([$targetUser_id]);
@@ -168,6 +183,7 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
                                 <h1>Projet de $targetPseudo</h1>
                                 <h3>$project_title</h3>
                                 <p>$project_description</p>
+                                <h4>Créer le : $project_timestamp</h4>
                                 <div class='like'>
                                   <form method='POST' action='projects?gohome=1&id=" . urlencode($project_id) . "'>
                                     <input type='hidden' name='like' value='1'>
@@ -184,10 +200,11 @@ if (isset($_POST['supr_project']) && isset($_POST['project_id'])) {
                                 </div>";
             
                         if ($myStatutInt === $statutAdmin || $targetUser_id === $myUser_id) {
-                            echo "<form method='POST' action='/' enctype='multipart/form-data'>
+                            echo "<br>
+                                  <form method='POST' action='/' enctype='multipart/form-data'>
                                     <input type='hidden' name='project_id' value='$project_id'>
                                     <input type='submit' name='supr_project' class='supr_project' value='Supprimer'>
-                                </form>";
+                                  </form>";
                         }
                         echo "</a></div><br><br>";   
                     }
